@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { PureComponent } from 'react';
-import { Animated, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { Animated, TouchableWithoutFeedback, StyleSheet, View, Text } from 'react-native';
 import TabBarIcon from './TabBarIcon';
 
 import type {
@@ -106,6 +106,7 @@ export default class TabBarBottom extends PureComponent<
       activeTintColor,
       inactiveTintColor,
       renderIcon,
+      renderBadge,
       showIcon,
     } = this.props;
     if (showIcon === false) {
@@ -118,11 +119,19 @@ export default class TabBarBottom extends PureComponent<
         activeTintColor={activeTintColor}
         inactiveTintColor={inactiveTintColor}
         renderIcon={renderIcon}
+        renderBadge={renderBadge}
         scene={scene}
         style={styles.icon}
       />
     );
   };
+
+  _renderBadge = (scene: TabScene) => {
+    if(typeof this.props.renderBadge === 'function') {
+      return this.props.renderBadge(scene)
+    }
+    return null;
+  }
 
   render() {
     const {
@@ -167,6 +176,7 @@ export default class TabBarBottom extends PureComponent<
               >
                 {this._renderIcon(scene)}
                 {this._renderLabel(scene)}
+                {this._renderBadge(scene)}
               </Animated.View>
             </TouchableWithoutFeedback>
           );

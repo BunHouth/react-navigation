@@ -100,6 +100,7 @@ class TabView extends PureComponent<void, Props, void> {
       this.props.childNavigationProps[route.key],
       this.props.screenProps || {}
     );
+
     if (options.tabBarIcon) {
       return typeof options.tabBarIcon === 'function'
         ? options.tabBarIcon({ tintColor, focused })
@@ -107,6 +108,22 @@ class TabView extends PureComponent<void, Props, void> {
     }
     return null;
   };
+
+  _renderBadge = ({ route }) => {
+    if(route) {
+      const options = this.props.router.getScreenOptions(
+        this.props.childNavigationProps[route.key],
+        this.props.screenProps || {}
+      );
+
+      if (options.tabBarBage) {
+        return typeof options.tabBarBage === 'function'
+          ? options.tabBarBage()
+          : options.tabBarBage();
+      }
+    }
+    return null;
+  }
 
   _renderTabBar = (props: *) => {
     const {
@@ -125,6 +142,7 @@ class TabView extends PureComponent<void, Props, void> {
         navigation={this.props.navigation}
         getLabel={this._getLabel}
         renderIcon={this._renderIcon}
+        renderBadge={this._renderBadge}
         animationEnabled={animationEnabled}
       />
     );

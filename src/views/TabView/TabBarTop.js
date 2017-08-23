@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { PureComponent } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated, StyleSheet, View, Text } from 'react-native';
 import { TabBar } from 'react-native-tab-view';
 import TabBarIcon from './TabBarIcon';
 
@@ -120,15 +120,22 @@ export default class TabBarTop extends PureComponent<
     );
   };
 
+  _renderBadge = (options) => {
+    if(typeof this.props.renderBadge === 'function') {
+      return this.props.renderBadge(options);
+    }
+    return null;
+  }
+
   render() {
     // TODO: Define full proptypes
     const props: any = this.props;
-
     return (
       <TabBar
         {...props}
         renderIcon={this._renderIcon}
         renderLabel={this._renderLabel}
+        renderBadge={this._renderBadge}
       />
     );
   }

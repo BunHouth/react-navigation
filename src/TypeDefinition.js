@@ -328,6 +328,11 @@ export type NavigationTabScreenOptions = {
     | ((options: { tintColor: ?string, focused: boolean }) => ?React.Element<
         *
       >),
+  tabBarBadge?:
+    | React.Element<*>
+    | ((options: {}) => ?React.Element<
+        *
+      >),
   tabBarLabel?:
     | string
     | React.Element<*>
