@@ -100,13 +100,34 @@ class TabView extends PureComponent<void, Props, void> {
       this.props.childNavigationProps[route.key],
       this.props.screenProps || {}
     );
-
     if (options.tabBarIcon) {
       return typeof options.tabBarIcon === 'function'
         ? options.tabBarIcon({ tintColor, focused })
         : options.tabBarIcon;
     }
     return null;
+  };
+
+  _renderTabBar = (props: *) => {
+    const {
+      tabBarOptions,
+      tabBarComponent: TabBarComponent,
+      animationEnabled,
+    } = this.props;
+    if (typeof TabBarComponent === 'undefined') {
+      return null;
+    }
+    return (
+      <TabBarComponent
+        {...props}
+        {...tabBarOptions}
+        navigation={this.props.navigation}
+        getLabel={this._getLabel}
+        renderIcon={this._renderIcon}
+        renderBadge={this._renderBadge}
+        animationEnabled={animationEnabled}
+      />
+    );
   };
 
   _renderBadge = ({ route }) => {
@@ -124,29 +145,6 @@ class TabView extends PureComponent<void, Props, void> {
     }
     return null;
   }
-
-  _renderTabBar = (props: *) => {
-    const {
-      tabBarOptions,
-      tabBarComponent: TabBarComponent,
-      animationEnabled,
-    } = this.props;
-    if (typeof TabBarComponent === 'undefined') {
-      return null;
-    }
-    return (
-      <TabBarComponent
-        {...props}
-        {...tabBarOptions}
-        screenProps={this.props.screenProps}
-        navigation={this.props.navigation}
-        getLabel={this._getLabel}
-        renderIcon={this._renderIcon}
-        renderBadge={this._renderBadge}
-        animationEnabled={animationEnabled}
-      />
-    );
-  };
 
   _renderPager = (props: *) => <TabViewPagerPan {...props} />;
 
@@ -171,8 +169,9 @@ class TabView extends PureComponent<void, Props, void> {
       screenProps || {}
     );
 
-    const tabBarVisible =
-      options.tabBarVisible == null ? true : options.tabBarVisible;
+    const tabBarVisible = options.tabBarVisible == null
+      ? true
+      : options.tabBarVisible;
 
     if (tabBarComponent !== undefined && tabBarVisible) {
       if (tabBarPosition === 'bottom') {

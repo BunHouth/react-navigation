@@ -6,9 +6,16 @@ import type {
   NavigationTransitionProps,
   NavigationTransitionSpec,
   TransitionConfig,
-} from '../../TypeDefinition';
+} from '../TypeDefinition';
 
 import CardStackStyleInterpolator from './CardStackStyleInterpolator';
+
+// Used for all animations unless overriden
+const DefaultTransitionSpec = ({
+  duration: 250,
+  easing: Easing.inOut(Easing.ease),
+  timing: Animated.timing,
+}: NavigationTransitionSpec);
 
 const IOSTransitionSpec = ({
   duration: 500,
@@ -20,18 +27,12 @@ const IOSTransitionSpec = ({
 const SlideFromRightIOS = ({
   transitionSpec: IOSTransitionSpec,
   screenInterpolator: CardStackStyleInterpolator.forHorizontal,
-  containerStyle: {
-    backgroundColor: '#000',
-  },
 }: TransitionConfig);
 
 // Standard iOS navigation transition for modals
 const ModalSlideFromBottomIOS = ({
   transitionSpec: IOSTransitionSpec,
   screenInterpolator: CardStackStyleInterpolator.forVertical,
-  containerStyle: {
-    backgroundColor: '#000',
-  },
 }: TransitionConfig);
 
 // Standard Android navigation transition when opening an Activity
@@ -106,6 +107,7 @@ function getTransitionConfig(
 }
 
 export default {
+  DefaultTransitionSpec,
   defaultTransitionConfig,
   getTransitionConfig,
 };

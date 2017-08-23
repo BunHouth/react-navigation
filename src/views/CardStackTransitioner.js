@@ -5,7 +5,7 @@ import { NativeModules } from 'react-native';
 
 import CardStack from './CardStack';
 import CardStackStyleInterpolator from './CardStackStyleInterpolator';
-import Transitioner from '../Transitioner';
+import Transitioner from './Transitioner';
 import TransitionConfigs from './TransitionConfigs';
 
 import type {
@@ -17,9 +17,9 @@ import type {
   NavigationTransitionProps,
   NavigationRouter,
   HeaderMode,
-  ViewStyleProp,
+  Style,
   TransitionConfig,
-} from '../../TypeDefinition';
+} from '../TypeDefinition';
 
 const NativeAnimatedModule =
   NativeModules && NativeModules.NativeAnimatedModule;
@@ -34,10 +34,10 @@ type Props = {
     NavigationAction,
     NavigationStackScreenOptions
   >,
-  cardStyle?: ViewStyleProp,
+  cardStyle?: Style,
   onTransitionStart?: () => void,
   onTransitionEnd?: () => void,
-  style: ViewStyleProp,
+  style: Style,
   /**
    * Optional custom animation when transitioning between screens.
    */
@@ -88,7 +88,7 @@ class CardStackTransitioner extends Component<DefaultProps, Props, void> {
     if (
       !!NativeAnimatedModule &&
       // Native animation support also depends on the transforms used:
-      CardStackStyleInterpolator.canUseNativeDriver()
+      CardStackStyleInterpolator.canUseNativeDriver(isModal)
     ) {
       // Internal undocumented prop
       transitionSpec.useNativeDriver = true;
