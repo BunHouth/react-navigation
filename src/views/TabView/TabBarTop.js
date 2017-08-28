@@ -140,8 +140,8 @@ export default class TabBarTop
 
 const styles = StyleSheet.create({
   icon: {
-    height: 24,
-    width: 24,
+    height: 34,
+    width: 34,
   },
   label: {
     textAlign: 'center',
